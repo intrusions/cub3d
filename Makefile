@@ -4,6 +4,7 @@ SRCS		=	./cub3d.c \
 				./srcs/utils/errors.c \
 				./srcs/utils/get_next_line.c \
 				./srcs/utils/get_next_line_utils.c \
+				./srcs/utils/tmp_debug.c \
 
 OBJS		=	$(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/05 00:51:42 by jucheval          #+#    #+#             */
-/*   Updated: 2022/08/05 03:05:18 by jucheval         ###   ########.fr       */
+/*   Updated: 2022/08/05 05:26:55 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,12 @@ typedef struct s_parsing_errors
 int		p_start_parsing(char *str, t_parsing_errors *errors);
 
 // Function to check if the map are ended by a ".cub"
-int	p_parse_name(char *str, t_parsing_errors *errors);
+int		p_parse_name(char *str, t_parsing_errors *errors);
 
+// Function to stock all data of the file in a char **
 char    **p_get_file(char *file, t_parsing_errors *errors);
+
+// Function to count how many line are in file
 size_t	p_count_line_in_file(char *argv, t_parsing_errors *errors);
 
 // ========================================================================= //
@@ -89,6 +92,9 @@ char	*ft_free(char *str);
 char	*ft_get_line(char *stash);
 char	*ft_get_stash(char *stash);
 char	*get_next_line(int fd);
+
+// Debug
+void	print_file(char **file);
 
 
 #endif
