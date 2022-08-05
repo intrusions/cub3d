@@ -1,6 +1,9 @@
 SRCS		=	./cub3d.c \
-				./srcs/utils/errors.c \
 				./srcs/parsing/start_parsing.c \
+				./srcs/parsing/parse_name_and_get_file.c \
+				./srcs/utils/errors.c \
+				./srcs/utils/get_next_line.c \
+				./srcs/utils/get_next_line_utils.c \
 
 OBJS		=	$(SRCS:.c=.o)
 
