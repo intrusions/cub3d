@@ -1,38 +1,30 @@
-SRCS		=	./cub3d.c \
-				./srcs/parsing/start_parsing.c \
-				./srcs/parsing/parse_name_and_get_file.c \
-				./srcs/utils/errors.c \
-				./srcs/utils/get_next_line.c \
-				./srcs/utils/get_next_line_utils.c \
-				./srcs/utils/tmp_debug.c \
+include cub3d.mk
 
-OBJS		=	$(SRCS:.c=.o)
+SRCS_OBJS := $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRCS))
 
-CC			=	gcc
+$(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c
+	@mkdir -vp $(dir $@)
+	$(CC) $(CFLAGS) -g3 -MMD -MP -o $@ -c $< -I $(INCS_DIR)
 
-RM			=	rm -f
+all: $(NAME)
 
-CFLAGS		= 	-Wall -Wextra -Werror -g3 -I./includes
+-include  $(SRCS_OBJS:.o=.d)
 
-NAME		= 	cub3d
-	
-MLX			= 	-Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+$(NAME): $(SRCS_OBJS)
+	$(MAKE) -C mlx/
+	$(CC) $(LBSD) $(CFLAGS) $^ -o $(NAME) $(LIB_MLX) -lm
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I/usr/include -Imlx_linux -c $< -o $@
-
-all:		$(NAME)
-
-$(NAME):	$(OBJS)
-	@make -C ./mlx_linux
-	$(CC) $(CFLAGS) $(OBJS) $(MLX) -o $(NAME)	
+test: all
+	@bash tester/tester.sh
 
 clean:
-	$(RM) $(OBJS)
+	rm -f $(SRCS_OBJS)
 
-fclean:		clean
-	$(RM) $(NAME)
+fclean: clean
+	$(MAKE) clean -C mlx/
+	rm -f $(NAME)
+	rm -rf $(OBJS_DIR)
 
-re:		fclean $(NAME)
+re: fclean all
 
-.PHONY:		all clean fclean re bonus
+.PHONY	: all clean fclean re
