@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jucheval <jucheval@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 00:40:30 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/19 21:59:46 by jucheval         ###   ########.fr       */
+/*   Created: 2022/10/20 19:54:29 by jucheval          #+#    #+#             */
+/*   Updated: 2022/10/20 19:54:30 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@
 
 bool	menu_init(t_self *self)
 {
-	if (!image_init(&self->mlx,
-			&self->mlx.display.menu,
-			MINIMAP_X + 10,
-			WINDOW_Y))
-		return (false);
-	
 	if (!image_init(&self->mlx,
 			&self->mlx.display.menu,
 			MINIMAP_X + 10,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pducos <pducos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 21:01:48 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/13 19:40:34 by pducos           ###   ########.fr       */
+/*   Updated: 2022/10/20 18:21:13 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 
 static bool	validate_scene(t_self *self)
 {
-	if (!self->scene.wall.no)
+	if (!self->scene.wall.no.name)
 		self->error |= E_INVALID_NO;
-	if (!self->scene.wall.so)
+	if (!self->scene.wall.so.name)
 		self->error |= E_INVALID_SO;
-	if (!self->scene.wall.we)
+	if (!self->scene.wall.we.name)
 		self->error |= E_INVALID_WE;
-	if (!self->scene.wall.ea)
+	if (!self->scene.wall.ea.name)
 		self->error |= E_INVALID_EA;
 	if (self->scene.ceil.r == -1)
 		self->error |= E_INVALID_C;

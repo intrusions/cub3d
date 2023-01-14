@@ -14,9 +14,6 @@ $(NAME): $(SRCS_OBJS)
 	$(MAKE) -C mlx/
 	$(CC) $(LBSD) $(CFLAGS) $^ -o $(NAME) $(LIB_MLX) -lm
 
-test: all
-	@bash tester/tester.sh
-
 clean:
 	rm -f $(SRCS_OBJS)
 

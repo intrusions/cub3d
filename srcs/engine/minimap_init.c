@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pducos <pducos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 00:40:30 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/15 14:32:10 by pducos           ###   ########.fr       */
+/*   Created: 2022/10/20 19:54:33 by jucheval          #+#    #+#             */
+/*   Updated: 2022/11/18 19:38:18 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,26 @@ static void	map_draw(t_self *self)
 {
 	int		y;
 	int		x;
+	t_intxy	pos;
 
-	y = 0;
-	while (self->map.line[y])
+	y = -1;
+	while (self->map.line[++y])
 	{
-		x = 0;
-		while (self->map.line[y][x])
+		x = -1;
+		while (self->map.line[y][++x])
 		{
 			if (self->map.line[y][x] == ' '
 				|| self->map.line[y][x] == self->map.cur_p.val)
+			{
+				pos.x = x * CUBE_SIZE;
+				pos.y = y * CUBE_SIZE;
 				set_x_pxls(
 					&self->mlx.display.minimap.map,
-					x * CUBE_SIZE,
-					y * CUBE_SIZE,
+					pos,
 					CUBE_SIZE,
 					MINIMAP_SPACE_RGB);
-			x++;
+			}
 		}
-		y++;
 	}
 }
 

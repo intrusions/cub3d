@@ -6,7 +6,7 @@
 /*   By: pducos <pducos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 18:08:15 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/13 19:44:26 by pducos           ###   ########.fr       */
+/*   Updated: 2022/10/26 16:15:27 by pducos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static void	fill_for_known_key(char **split, t_self *self)
 	if (split_elem_count(split) == 2)
 	{
 		if (!str_cmp(key, "NO"))
-			save_value(&self->scene.wall.no, val);
+			save_value(&self->scene.wall.no.name, val);
 		if (!str_cmp(key, "SO"))
-			save_value(&self->scene.wall.so, val);
+			save_value(&self->scene.wall.so.name, val);
 		if (!str_cmp(key, "WE"))
-			save_value(&self->scene.wall.we, val);
+			save_value(&self->scene.wall.we.name, val);
 		if (!str_cmp(key, "EA"))
-			save_value(&self->scene.wall.ea, val);
+			save_value(&self->scene.wall.ea.name, val);
 		if (!str_cmp(key, "F"))
 			parse_rgb(self, val, RGB_FLOOR_ID);
 		if (!str_cmp(key, "C"))
@@ -44,10 +44,10 @@ static void	fill_for_known_key(char **split, t_self *self)
 
 static bool	got_all_keys(t_self *self)
 {
-	if (self->scene.wall.no
-		&& self->scene.wall.so
-		&& self->scene.wall.ea
-		&& self->scene.wall.we
+	if (self->scene.wall.no.name
+		&& self->scene.wall.so.name
+		&& self->scene.wall.ea.name
+		&& self->scene.wall.we.name
 		&& self->scene.ceil.r != -1
 		&& self->scene.floor.r != -1)
 		return (true);

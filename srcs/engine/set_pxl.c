@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_reset.c                                     :+:      :+:    :+:   */
+/*   set_pxl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 00:40:34 by pducos            #+#    #+#             */
-/*   Updated: 2022/11/11 20:26:36 by jucheval         ###   ########.fr       */
+/*   Created: 2022/11/17 22:16:54 by jucheval          #+#    #+#             */
+/*   Updated: 2022/11/18 19:16:40 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "mlx.h"
+#include <stdlib.h>
 
-inline static void	__memset(int32_t *m, int32_t c, size_t size)
+inline void	set_pxl(t_img *img, int x, int y, int color)
 {
-	while (size--)
-		*(m++) = c;
+	*(img->data + (y * img->width) + x) = color;
 }
 
-void	render_reset(t_img *img, t_rgb *ceil, t_rgb *floor)
+void	set_x_pxls(t_img *img, t_intxy pos, int n, int color)
 {
-	__memset(
-		img->data,
-		ceil->r << 16
-		| ceil->g << 8
-		| ceil->b,
-		(img->height * img->width) >> 1);
-	__memset(
-		img->data + (img->height * img->width >> 1),
-		floor->r << 16
-		| floor->g << 8
-		| floor->b,
-		(img->height * img->width) >> 1);
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < n
+		&& pos.y + i < img->height)
+	{
+		j = 0;
+		while (j < n
+			&& pos.x + j < img->width)
+		{
+			set_pxl(img, pos.x + j, pos.y + i, color);
+			j++;
+		}
+		i++;
+	}
 }

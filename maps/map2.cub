@@ -1,11 +1,18 @@
-NO	./textures/GrayWalls.xpm
-SO	./textures/GrayWalls.xpm
-WE	./textures/GrayWalls.xpm
-EA	./textures/GrayWalls.xpm
+NO	./textures/eagle.xpm
+SO	./textures/greystone.xpm
+WE	./textures/purplestone.xpm
+EA	./textures/red.xpm
 
 F	101,115,126
 C	167,173,186
 
-111
-1N1
-111
+11111
+10001
+10101
+10001
+10001
+10001
+10001
+10001
+10N01
+11111

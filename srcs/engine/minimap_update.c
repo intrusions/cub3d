@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 00:40:34 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/19 19:13:15 by jucheval         ###   ########.fr       */
+/*   Created: 2022/10/20 19:54:37 by jucheval          #+#    #+#             */
+/*   Updated: 2022/11/18 19:39:49 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,30 @@
 
 void	guides_draw(t_display *display)
 {
-	int	i;
+	int		i;
+	t_intxy	pos;
 
-	i = 0;
-	while (i < MINIMAP_Y)
+	i = -1;
+	while (++i < MINIMAP_Y)
 	{
+		pos.x = display->minimap.loc.x;
+		pos.y = i;
 		set_x_pxls(
 			&display->minimap.minimap,
-			display->minimap.loc.x,
-			i,
-			1,
+			pos,
+			3,
 			MINIMAP_GUIDES_RGB);
-		i++;
 	}
-	i = 0;
-	while (i < MINIMAP_X)
+	i = -1;
+	while (++i < MINIMAP_X)
 	{
+		pos.x = i;
+		pos.y = display->minimap.loc.y;
 		set_x_pxls(
 			&display->minimap.minimap,
-			i,
-			display->minimap.loc.y,
-			1,
+			pos,
+			3,
 			MINIMAP_GUIDES_RGB);
-		i++;
 	}
 }
 
@@ -55,7 +56,7 @@ static void	update_display(t_display *display)
 	y = display->player.y * CUBE_SIZE - (MINIMAP_Y >> 1);
 	x = clamp(x, 0, display->minimap.map.width - MINIMAP_X);
 	y = clamp(y, 0, display->minimap.map.height - MINIMAP_Y);
-	display->minimap.loc.x = display->player.x * CUBE_SIZE  - x;
+	display->minimap.loc.x = display->player.x * CUBE_SIZE - x;
 	display->minimap.loc.y = display->player.y * CUBE_SIZE - y;
 	src += y * display->minimap.map.width + x;
 	size = MINIMAP_Y;

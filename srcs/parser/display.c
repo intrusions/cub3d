@@ -6,7 +6,7 @@
 /*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 01:00:17 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/07 20:01:53 by jucheval         ###   ########.fr       */
+/*   Updated: 2022/10/20 18:21:13 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	display_map(char **map, size_t map_size)
 
 void	display_parsed(t_self *self)
 {
-	printf("\n\tNO = '%s'\n", self->scene.wall.no);
-	printf("\tSO = '%s'\n", self->scene.wall.so);
-	printf("\tWE = '%s'\n", self->scene.wall.we);
-	printf("\tEA = '%s'\n\n", self->scene.wall.ea);
+	printf("\n\tNO = '%s'\n", self->scene.wall.no.name);
+	printf("\tSO = '%s'\n", self->scene.wall.so.name);
+	printf("\tWE = '%s'\n", self->scene.wall.we.name);
+	printf("\tEA = '%s'\n\n", self->scene.wall.ea.name);
 	printf("\tC  = %3d, %3d, %3d\n", self->scene.ceil.r,
 		self->scene.ceil.g,
 		self->scene.ceil.b);

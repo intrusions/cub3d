@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pducos <pducos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 21:53:22 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/13 19:39:56 by pducos           ###   ########.fr       */
+/*   Updated: 2022/11/11 20:24:24 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	main(int ac, char **av)
 		&& !str_cmp(av[1], "--parsing-only")
 		&& av++)
 		parsing_only = true;
-	else if (ac != 2
-		|| !is_cub_file(av[1]))
+	else if (ac != 2 || !is_cub_file(av[1]))
 		return (usage_error(av[0]), EXIT_FAILURE);
 	mem_set(&self, 0x00, sizeof(t_self));
 	mem_set(&self.scene.ceil, -1, sizeof(t_rgb) * 2);
@@ -50,16 +49,13 @@ int	main(int ac, char **av)
 		return (parsing_errors(&self),
 			destroy_self(&self),
 			report_error("Quitting...\n"), EXIT_FAILURE);
-	report_error("Starting game...\n");
 	if (parsing_only)
 		return (destroy_self(&self), EXIT_SUCCESS);
 	start_game(&self);
 	if (self.mlx.error)
 		return (mlx_errors(self.mlx.error),
 			report_error("Quitting...\n"),
-			destroy_self(&self),
-			EXIT_FAILURE);
+			destroy_self(&self), EXIT_FAILURE);
 	return (report_error("Quitting...\n"),
-		destroy_self(&self),
-		EXIT_SUCCESS);
+		destroy_self(&self), EXIT_SUCCESS);
 }

@@ -3,41 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pducos <pducos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 00:40:38 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/16 10:33:03 by pducos           ###   ########.fr       */
+/*   Updated: 2023/01/07 21:39:54 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "mlx.h"
 #include <stdlib.h>
-
-static inline void	set_pxl(t_img *img, int x, int y, int color)
-{
-	*(img->data + (y * img->width) + x) = color;
-}
-
-void	set_x_pxls(t_img *img, int x, int y, int n, int color)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i <= n
-		&& y + i < img->height)
-	{
-		j = 0;
-		while (j <= n
-			&& x + j < img->width)
-		{
-			set_pxl(img, x + j, y + i, color);
-			j++;
-		}
-		i++;
-	}
-}
 
 void	image_display(t_gui *mlx, t_img *img, int x, int y)
 {
@@ -47,6 +22,26 @@ void	image_display(t_gui *mlx, t_img *img, int x, int y)
 		img->img,
 		x,
 		y);
+}
+
+void	mlx_destroy_texture(t_self *self)
+{
+	if (self->scene.wall.no.image.img)
+		mlx_destroy_image(
+			self->mlx.mlx,
+			self->scene.wall.no.image.img);
+	if (self->scene.wall.we.image.img)
+		mlx_destroy_image(
+			self->mlx.mlx,
+			self->scene.wall.we.image.img);
+	if (self->scene.wall.ea.image.img)
+		mlx_destroy_image(
+			self->mlx.mlx,
+			self->scene.wall.ea.image.img);
+	if (self->scene.wall.so.image.img)
+		mlx_destroy_image(
+			self->mlx.mlx,
+			self->scene.wall.so.image.img);
 }
 
 void	mlx_destroy(t_self *self)
@@ -67,6 +62,7 @@ void	mlx_destroy(t_self *self)
 		mlx_destroy_image(
 			self->mlx.mlx,
 			self->mlx.display.menu.img);
+	mlx_destroy_texture(self);
 	mlx_destroy_window(self->mlx.mlx, self->mlx.win);
 	mlx_destroy_display(self->mlx.mlx);
 	free(self->mlx.mlx);

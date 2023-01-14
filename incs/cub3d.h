@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pducos <pducos@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 21:07:04 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/19 21:23:08 by jucheval         ###   ########.fr       */
+/*   Updated: 2023/01/09 18:11:15 by pducos           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define MAX_MAP_SIZE       4096
 # define RGB_CEIL_ID           0
 # define RGB_FLOOR_ID          1
+
 // configuration
 # define WINDOW_X           1280
 # define WINDOW_Y            720
@@ -38,14 +39,19 @@
 # define MINIMAP_Y           170
 # define RENDER_X            (WINDOW_X - MINIMAP_X + 10)
 # define RENDER_Y            (WINDOW_Y)
+# define SPEED               128
+# define SENSITIVITY       0.005
 # define CUBE_SIZE            14
-# define PLAYER_SPEED       2.0f
+
 // colors
 # define RENDER_BG_RGB       0x808080
-# define MENU_BG_RGB         0x292929
-# define MINIMAP_SPACE_RGB   0x586d66
-# define MINIMAP_BG_RGB      0x464646
-# define MINIMAP_GUIDES_RGB  0xff7251
+# define MENU_BG_RGB         0x34302F
+# define MINIMAP_SPACE_RGB   0x828282
+# define MINIMAP_BG_RGB      0x3a3a3a
+# define MINIMAP_GUIDES_RGB  0x9A1818
+# define V_WALL_RGB          0x7F3335
+# define H_WALL_RGB          0x99585C
+
 // keys
 # define KEY_W	       119
 # define KEY_A	        97
@@ -56,7 +62,6 @@
 # define KEY_DOWN    65364
 # define KEY_LEFT    65361
 # define KEY_RIGHT   65363
-# define MOUSE_LEFT  1
 // parsing errors
 # define E_INVALID_NO        0x1
 # define E_INVALID_SO        0x2
@@ -73,14 +78,15 @@
 # define E_OPEN_MAP       0x1000
 # define E_RGB_FIELD_C    0x2000
 # define E_RGB_FIELD_F    0x4000
+# define E_NO_404         0x8000
+# define E_SO_404         0x10000
+# define E_EA_404         0x20000
+# define E_WE_404         0x40000
+
 // game errors
 # define E_MLX_INIT     0x1
 # define E_MLX_WIN      0x2
 # define E_IMG_INIT     0x4
-
-// ========================================================================= //
-//                                    Enum                                   //
-// ========================================================================= //
 
 // ========================================================================= //
 //                                 Structure                                 //
@@ -116,6 +122,17 @@ typedef struct s_img {
 	int		*data;
 }	t_img;
 
+typedef struct s_keys {
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	left;
+	bool	right;
+	bool	shift;
+	bool	space;
+}	t_keys;
+
 typedef struct	s_display {
 	struct {
 		t_img	minimap;
@@ -125,9 +142,9 @@ typedef struct	s_display {
 	t_img		screen;
 	t_img		menu;
 	struct {
-		double	x;
-		double	y;
-		double	a;
+		float	x;
+		float	y;
+		float	a;
 	}	player;
 }	t_display;
 
@@ -136,9 +153,13 @@ typedef struct	s_ray {
 	t_floatxy	dir;
 	t_floatxy	delta;
 	t_floatxy	len;
-	t_intxy		map;	
+	t_intxy		map;
 	t_intxy		step;
-}	t_ray;		
+	float		line_len;
+	float		current_angle;
+	float		wall_x;
+	int			side;
+}	t_ray;
 
 typedef struct	s_gui {
 	uint32_t	error;
@@ -147,15 +168,21 @@ typedef struct	s_gui {
 	t_display	display;
 }	t_gui;
 
+typedef struct	s_texture {
+	char	*name;
+	t_img	image;
+}	t_texture;
+
+
 typedef struct s_self {
 	char		*filename;
 	uint32_t	error;
 	struct	s_scene {
 		struct s_wall {
-			char	*no;
-			char	*so;
-			char	*we;
-			char	*ea;
+			t_texture	no;
+			t_texture	so;
+			t_texture	we;
+			t_texture	ea;
 		}	wall;
 		t_rgb	ceil;
 		t_rgb	floor;
@@ -168,6 +195,7 @@ typedef struct s_self {
 		t_player	cur_p;
 	}	map;
 	t_gui	mlx;
+	t_keys	keys;
 }	t_self;
 
 // ========================================================================= //
@@ -191,21 +219,37 @@ void	display_map(char **map, size_t map_size);
 
 void	wrap_mlx_init(t_gui *mlx, int x, int y, char *title);
 void	start_game(t_self *self);
-int		handle_key(long k, t_self *self);
+int		handle_keypress(long k, t_self *self);
+int		handle_keyrelease(long k, t_self *self);
+void	do_moving(t_self *self);
 void	mlx_errors(int error);
 int     quit_game(t_gui *mlx);
 void	mlx_destroy(t_self *self);
 
 bool    image_init(t_gui *mlx, t_img *img, int x, int y);
+bool	texture_load(t_self *self);
 void    image_reset(t_img *img, int color);
 void    image_display(t_gui *mlx, t_img *img, int x, int y);
 bool    minimap_init(t_self *self);
 void    minimap_update(t_self *self);
 bool	render_init(t_self *self);
 void	render_reset(t_img *img, t_rgb *ceil, t_rgb *floor);
+void	render_update(t_self *self);
 bool	menu_init(t_self *self);
-void	set_x_pxls(t_img *img, int x, int y, int n, int color);
-void	raycast(t_self *self);
+void	set_x_pxls(t_img *img, t_intxy pos, int n, int color);
+void	engine_errors(t_self *self);
+
+void	set_pxl(t_img *img, int x, int y, int color);
+
+// render_math
+void	compute_initial_values(t_ray *r);
+void	init_ray(t_ray *r);
+void	perform_dda(t_ray *r);
+void	determine_line_length(t_ray *r, t_self *self);
+void	draw_line_from_texture(t_ray *r, t_self *self, int i);
+
+//
+void	drawline(t_img *screen, t_img *texture, t_ray *r, int i);
 
 // ========================================================================= //
 //                                    Utils                                  //

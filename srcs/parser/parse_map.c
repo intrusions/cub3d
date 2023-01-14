@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pducos <pducos@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jucheval <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 20:18:06 by pducos            #+#    #+#             */
-/*   Updated: 2022/10/14 22:12:16 by pducos           ###   ########.fr       */
+/*   Updated: 2022/11/11 20:25:06 by jucheval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ void	parse_map(t_self *self)
 		if (self->error == 0)
 			return ;
 		if (n_players)
-			self->error &= \
-				~(E_OPEN_MAP | E_INVALID_CHAR | E_PLAYER_NUM);
+			self->error &= ~(E_OPEN_MAP
+					| E_INVALID_CHAR
+					| E_PLAYER_NUM);
 		i++;
 	}
 }

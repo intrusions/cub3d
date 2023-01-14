@@ -1,5 +1,5 @@
 NAME		:= cub3D
-CC		:= gcc
+CC			:= cc
 CFLAGS 		:= -Wall -Wextra -Werror -g3
 LIB_MLX		:= -Lmlx -lmlx -lXext -lX11 -lm -lz
 LBSD        := $(pkg-config --libs libbsd)
@@ -26,7 +26,9 @@ SRCS := main.c	                            \
 		engine/mlx_utils.c                  \
 		engine/start_game.c                 \
 		engine/quit_game.c                  \
-		engine/handle_key.c                 \
+		engine/handle_keypress.c            \
+		engine/handle_keyrelease.c          \
+		engine/do_moving.c                  \
 		engine/mlx_errors.c                 \
 		engine/image_init.c                 \
 		engine/minimap_init.c               \
@@ -34,7 +36,11 @@ SRCS := main.c	                            \
 		engine/render_init.c                \
 		engine/render_reset.c               \
 		engine/menu_init.c                  \
-		engine/raycast.c                    \
+		engine/texture_load.c               \
+		engine/render_update.c              \
+		engine/render_math.c                \
+		engine/engine_errors.c              \
+		engine/set_pxl.c                    \
 		\
 		utils/report_error.c                \
 		utils/str_cmp.c                     \
